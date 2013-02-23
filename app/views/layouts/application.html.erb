@@ -7,6 +7,13 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+<% if logged_in? %>
+  <%= link_to "Logout", session_path, :method => :delete %>
+<% else %>
+  <%= link_to "Login", new_session_path %> or 
+  <%= link_to "Signup", new_users_path %>
+<% end %>
+
 <% flash.each do |key,value| %>
   <% if value.present? %>
     <div class="flash">

@@ -33,4 +33,22 @@ describe "Sessions" do
       end
     end
   end
+
+  describe "signing out" do
+    describe "a user who is logged in" do
+      it "should be able to log out" do
+        user = FactoryGirl.create(:user)
+        visit new_session_path
+        fill_in "Email", :with => user.email
+        fill_in "Password", :with => user.password
+        click_button "Login"
+
+        visit root_path
+        click_link "Logout"
+
+        page.current_path.should eql(new_session_path)
+        page.should have_content "Signed out"
+      end
+    end
+  end
 end
