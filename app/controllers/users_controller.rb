@@ -1,6 +1,4 @@
 class UsersController < ApplicationController
-  include SimplestAuth::Controller
-
   def new
     @user = User.new
   end
