@@ -1,0 +1,17 @@
+class UsersController < ApplicationController
+  include SimplestAuth::Controller
+
+  def new
+    @user = User.new
+  end
+
+  def create
+    @user = User.new(params[:user])
+    if @user.save
+      redirect_to root_path, :notice => "You signed up!"
+    else
+      flash.now[:error] = "There were errors with your submission"
+      render "new"
+    end
+  end
+end
