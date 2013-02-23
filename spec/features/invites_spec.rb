@@ -19,6 +19,11 @@ describe "Invites" do
           expect{ click_button "Send Invite" }.to change{ Invite.count }.by(1)
           page.should have_content "Invitation sent"
         end
+
+        it "should deliver an email" do
+          fill_in "Email", :with => 'valid@email.address'
+          expect{ click_button "Send Invite" }.to change{ InviteMailer.deliveries.count }.by(1)
+        end
       end
 
       context "with an invalid email address" do

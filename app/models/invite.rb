@@ -12,8 +12,13 @@ class Invite < ActiveRecord::Base
             :numericality => true
 
   before_validation :generate_code, :on => :create
+  after_save :deliver, :on => :create
 
   def generate_code
     self.code = Digest::SHA1.hexdigest("--#{Time.now.utc.to_s}--#{self.email}--")
+  end
+
+  def deliver
+    InviteMailer.invite(self).deliver
   end
 end

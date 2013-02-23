@@ -31,6 +31,7 @@ end
 
 group :test do
   gem 'shoulda-matchers'
+  gem 'email_spec'
   gem 'simplecov'
   gem 'capybara'
   gem 'factory_girl_rails'
