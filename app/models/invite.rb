@@ -10,4 +10,10 @@ class Invite < ActiveRecord::Base
   validates :user_id,
             :presence => true,
             :numericality => true
+
+  before_validation :generate_code, :on => :create
+
+  def generate_code
+    self.code = Digest::SHA1.hexdigest("--#{Time.now.utc.to_s}--#{self.email}--")
+  end
 end

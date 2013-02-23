@@ -13,4 +13,21 @@ describe Invite do
   context "associations" do
     it { should belong_to(:user) }
   end
+
+  context "respond to" do
+    it { should respond_to(:generate_code) }
+  end
+
+  describe "#generate_code" do
+    it "should execute callback upon creation" do
+      invite = Invite.new(:email => 'valid@email.address', :user_id => 1)
+      invite.should_receive(:generate_code)
+      invite.save
+    end
+
+    it "should generate a hex hash code" do
+      invite = Invite.create(:email => 'valid@email.address', :user_id => 1)
+      invite.code.should == Digest::SHA1.hexdigest("--#{Time.now.utc.to_s}--valid@email.address--")
+    end
+  end
 end
