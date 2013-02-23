@@ -1,7 +1,7 @@
 require "spec_helper"
 
 describe "Users" do
-  describe "GET /users/new" do
+  describe "signing up" do
     let(:user) { FactoryGirl.build(:user) }
     before { visit new_users_path }
 

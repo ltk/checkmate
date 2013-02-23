@@ -1,6 +1,7 @@
 Checkmate::Application.routes.draw do
   resource :users, :only => [:new, :create]
   resource :session, :only => [:new, :create, :destroy]
+  resource :invite, :only => [:new, :create]
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
