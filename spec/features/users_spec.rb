@@ -42,7 +42,7 @@ describe "Users" do
     let(:user) { FactoryGirl.create(:user) }
     before { visit "/users/#{user.id}/edit"}
 
-    context "with valid information" do
+    context "with a new valid email address" do
       it "should be able to change email address" do
         fill_in "Email", :with => "new@email.address"
         click_button "Update Information"
@@ -53,7 +53,7 @@ describe "Users" do
       end
     end
 
-    context "with invalid information" do
+    context "with a new invalid email address" do
       before do
         fill_in "Email", :with => "invalid@email"
         click_button "Update Information"
@@ -64,9 +64,31 @@ describe "Users" do
         current_path.should eql("/users/#{user.id}/edit")
       end
 
-      it "should not change information" do
+      it "should not change email address" do
         old_email = user.email
         old_email.should eql(user.reload.email)
+      end
+    end
+
+    context "with a new password" do
+      before { fill_in "user_password", :with => 'new-password' }
+
+      context "with a matching password confirmation" do
+        it "should update the crypted password" do
+          fill_in "user_password_confirmation", :with => 'new-password'
+          click_button "Update Information"
+          old_crypt_pass = user.crypted_password
+          old_crypt_pass.should_not eql(user.reload.crypted_password)
+        end
+      end
+
+      context "with a non-matching password confirmation" do
+        it "should not update the crypted password" do
+          fill_in "user_password_confirmation", :with => 'major-typo'
+          click_button "Update Information"
+          old_crypt_pass = user.crypted_password
+          old_crypt_pass.should eql(user.reload.crypted_password)
+        end
       end
     end
   end

@@ -13,8 +13,9 @@ describe "Sessions" do
         click_button "Login"
       end
 
-      it "should display a success message" do
+      it "should redirect to account page and display a success message" do
         page.should have_content "Signed in"
+        current_path.should eql(user_path(user))
       end
     end
 
