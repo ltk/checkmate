@@ -27,6 +27,15 @@ describe "Users" do
         page.should have_content "There were errors"
       end
     end
+  end
+
+  describe "redeeming an invitation" do
+    let(:invite) { Invite.create(:email => 'valid@email.address', :user_id => 1) }
+    before { visit "/redeem_invite/#{invite.code}" }
+
+    it "should autofill the email field" do
+      find_field("Email").value.should eql(invite.email)
+    end
   end 
 end
 
