@@ -4,6 +4,8 @@ class User < ActiveRecord::Base
 
   attr_accessible :email, :password, :password_confirmation
 
+  has_many :invites
+  
   validates :email,
             :presence => true,
             :uniqueness => true,

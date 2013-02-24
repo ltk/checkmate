@@ -1,6 +1,11 @@
 class UsersController < ApplicationController
   def new
-    @user = User.new
+    if params[:code]
+      invite = Invite.find_by_code(params[:code])
+      @user = User.new(:email => invite.email)
+    else
+      @user = User.new
+    end
   end
 
   def create

@@ -1,7 +1,7 @@
 require "spec_helper"
 
 describe "Users" do
-  describe "GET /users/new" do
+  describe "signing up" do
     let(:user) { FactoryGirl.build(:user) }
     before { visit new_users_path }
 
@@ -26,6 +26,15 @@ describe "Users" do
         expect { click_button "Sign Up" }.to change{ User.count }.by(0)
         page.should have_content "There were errors"
       end
+    end
+  end
+
+  describe "redeeming an invitation" do
+    let(:invite) { Invite.create(:email => 'valid@email.address', :user_id => 1) }
+    before { visit "/redeem_invite/#{invite.code}" }
+
+    it "should autofill the email field" do
+      find_field("Email").value.should eql(invite.email)
     end
   end 
 end
