@@ -3,7 +3,7 @@ require "spec_helper"
 describe "Users" do
   describe "signing up" do
     let(:user) { FactoryGirl.build(:user) }
-    before { visit new_users_path }
+    before { visit new_user_path }
 
     context "with valid information" do
       before do
@@ -36,7 +36,40 @@ describe "Users" do
     it "should autofill the email field" do
       find_field("Email").value.should eql(invite.email)
     end
-  end 
+  end
+  
+  describe "editing own information" do
+    let(:user) { FactoryGirl.create(:user) }
+    before { visit "/users/#{user.id}/edit"}
+
+    context "with valid information" do
+      it "should be able to change email address" do
+        fill_in "Email", :with => "new@email.address"
+        click_button "Update Information"
+
+        current_path.should eql("/users/#{user.id}/edit")
+        page.should have_content "Information updated"
+        user.reload.email.should eql("new@email.address")
+      end
+    end
+
+    context "with invalid information" do
+      before do
+        fill_in "Email", :with => "invalid@email"
+        click_button "Update Information"
+      end
+
+      it "should re-render the edit form with an error message" do
+        page.should have_content "There were errors"
+        current_path.should eql("/users/#{user.id}/edit")
+      end
+
+      it "should not change information" do
+        old_email = user.email
+        old_email.should eql(user.reload.email)
+      end
+    end
+  end   
 end
 
 def fill_in_signup_form(email, password)

@@ -17,4 +17,18 @@ class UsersController < ApplicationController
       render "new"
     end
   end
+
+  def edit
+    @user = User.find_by_id(params[:id])
+  end
+
+  def update
+    @user = User.find_by_id(params[:id])
+    @user.assign_attributes(params[:user])
+    if @user.save
+      redirect_to edit_user_path(@user.id), :notice => "Information updated"
+    else
+      redirect_to edit_user_path(@user.id), :alert => "There were errors with your submission"
+    end
+  end
 end
