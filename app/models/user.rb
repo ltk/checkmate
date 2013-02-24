@@ -13,6 +13,11 @@ class User < ActiveRecord::Base
   validates :password, :confirmation => true
   validates :password, :length => { :minimum => 5 }, :if => :password_required?
   validates :password, :password_confirmation, :presence => true, :on => :create
+  validates :password_reset_token, :uniqueness => true, :allow_nil => true
 
   mount_uploader :avatar, AvatarUploader
+
+  def set_password_reset_token
+    update_attribute(:password_reset_token, SecureRandom.uuid)
+  end
 end
