@@ -26,6 +26,9 @@ describe Invite do
     end
 
     it "should generate a hex hash code" do
+      @time_now = Time.parse("Jan 1 2013")
+      Time.stub!(:now).and_return(@time_now)
+
       invite = Invite.create(:email => 'valid@email.address', :user_id => 1)
       invite.code.should == Digest::SHA1.hexdigest("--#{Time.now.utc.to_s}--valid@email.address--")
     end
