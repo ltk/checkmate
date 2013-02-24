@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe PasswordsController do
   before { [User].each &:destroy_all }
-  
+
   describe "#new" do
     it "renders the password reset form" do
       get :new
@@ -15,11 +15,8 @@ describe PasswordsController do
       let(:user) { FactoryGirl.create(:user) }
 
       it "sends an email" do
-        pending
-        mailer = double("PasswordResetMailer", :deliver => true)
-        PasswordResetMailer.should_receive(:send_reset_instructions).with(user).
-          and_return(mailer)
         post :create, :email => user.email
+        PasswordResetMailer.deliveries.last.to.should eql([user.email])
       end
 
       it "redirects to the root path" do

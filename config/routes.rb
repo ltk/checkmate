@@ -4,7 +4,7 @@ Checkmate::Application.routes.draw do
   resources :passwords, :only => [:new, :create]
 
   resources :users do
-    resource :passwords, :only => [:edit, :update]
+    resource :password, :only => [:edit, :update]
   end
 
   resource :session, :only => [:new, :create, :destroy]
