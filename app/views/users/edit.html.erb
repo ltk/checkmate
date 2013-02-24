@@ -1,4 +1,6 @@
-<%= simple_form_for :user, :url => user_path, :method => :put do |f| %>
+<%= simple_form_for :user, :url => user_path, :method => :put, :html => { :multipart => true } do |f| %>
+  <%= image_tag(@user.avatar_url) if @user.avatar? %>
+  <%= f.file_field :avatar %>
   <%= f.input :email %>
   <%= f.input :password %>
   <%= f.input :password_confirmation %>

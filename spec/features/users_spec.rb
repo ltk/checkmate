@@ -12,7 +12,7 @@ describe "Users" do
 
       it "should create a new user account" do
         expect { click_button "Sign Up" }.to change{ User.count }.by(1)
-        current_path.should eql(root_path)
+        current_path.should eql(user_path(User.last.id))
         page.should have_content "You signed up!"
       end
     end
@@ -75,8 +75,12 @@ describe "Users" do
     let(:user) { FactoryGirl.create(:user) }
     before { visit "/users/#{user.id}"}
 
-    it "should show their email address" do
+    it "should contain their email address" do
       page.should have_content user.email
+    end
+
+    it "should contain their avatar img" do
+      page.should have_xpath("//img[@src=\"#{user.avatar_url}\"]")
     end
   end  
 end

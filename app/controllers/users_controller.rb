@@ -15,7 +15,8 @@ class UsersController < ApplicationController
   def create
     @user = User.new(params[:user])
     if @user.save
-      redirect_to root_path, :notice => "You signed up!"
+      self.current_user = @user
+      redirect_to user_path(@user), :notice => "You signed up!"
     else
       flash.now[:error] = "There were errors with your submission"
       render "new"
