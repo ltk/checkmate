@@ -69,7 +69,16 @@ describe "Users" do
         old_email.should eql(user.reload.email)
       end
     end
-  end   
+  end
+
+  describe "viewing profile" do
+    let(:user) { FactoryGirl.create(:user) }
+    before { visit "/users/#{user.id}"}
+
+    it "should show their email address" do
+      page.should have_content user.email
+    end
+  end  
 end
 
 def fill_in_signup_form(email, password)
