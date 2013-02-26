@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe "Invites" do
+  before { [User].each &:destroy_all }
+  
   describe "inviting a person" do
     context "when logged in" do
       before do

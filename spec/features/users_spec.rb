@@ -1,6 +1,8 @@
 require "spec_helper"
 
 describe "Users" do
+  before { [User].each &:destroy_all }
+  
   describe "signing up" do
     let(:user) { FactoryGirl.build(:user) }
     before { visit new_user_path }
@@ -104,7 +106,7 @@ describe "Users" do
     it "should contain their avatar img" do
       page.should have_xpath("//img[@src=\"#{user.avatar_url}\"]")
     end
-  end  
+  end
 end
 
 def fill_in_signup_form(email, password)

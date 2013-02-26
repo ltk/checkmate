@@ -9,6 +9,7 @@
 <body>
 <% if logged_in? %>
   <%= link_to "Edit Account", edit_user_path(current_user) %> or 
+  <%= link_to "Invite a Friend", new_invite_path %> or 
   <%= link_to "Logout", session_path, :method => :delete %>
 <% else %>
   <%= link_to "Login", new_session_path %> or 

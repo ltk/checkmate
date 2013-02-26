@@ -1,9 +1,14 @@
 Checkmate::Application.routes.draw do
   match '/redeem_invite/:code' => 'users#new', :as => 'redeem_invitation'
-  resources :users
-  # resource :users, :only => [:new, :create]
-  # resource :user, :only => [:edit, :update]
+
+  resources :passwords, :only => [:new, :create]
+
+  resources :users do
+    resource :password, :only => [:edit, :update]
+  end
+
   resource :session, :only => [:new, :create, :destroy]
+  
   resource :invite, :only => [:new, :create]
   # The priority is based upon order of creation:
   # first created -> highest priority.
