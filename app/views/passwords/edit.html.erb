@@ -1,0 +1,5 @@
+<%= simple_form_for @user, :url => user_password_path do |f| %>
+    <%= f.input :password %>
+    <%= f.input :password_confirmation %>
+    <%= f.button :submit, "Update" %>
+<% end %>

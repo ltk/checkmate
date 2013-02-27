@@ -1,6 +1,8 @@
 require "spec_helper"
 
 describe "Sessions" do
+  before { [User].each &:destroy_all }
+  
   describe "signing in" do
     before { visit new_session_path }
 
